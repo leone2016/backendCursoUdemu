@@ -33,6 +33,7 @@ import ec.com.waki.servicios.FotoArticuloService;
 import ec.com.waki.servicios.StockArticuloService;
 import ec.com.waki.util.Tipo_bundle;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.container.ContainerRequestContext;
 import org.apache.http.HttpHeaders;
 import org.apache.http.ParseException;
@@ -56,6 +57,18 @@ public class shopRS {
    @Context
    private HttpServletRequest httpServletRequest;
    
+   
+    @POST
+    @Path("/payflowPOST")
+    @Produces("application/json")
+    public Response payflowPOST() {
+        Gson gson = new Gson();
+        
+        
+        
+        return Response.status(Response.Status.OK).entity(gson.toJson("GO  FOR PAY ")).build();
+    }
+    
     @GET
     @Path("/articleViewer")
     @Produces(MediaType.APPLICATION_JSON)

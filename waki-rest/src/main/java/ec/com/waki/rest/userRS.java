@@ -10,7 +10,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ec.com.waki.DTO.MensajeDTO;
 import ec.com.waki.DTO.UsuarioDTO;
+import ec.com.waki.entidades.Role;
 import ec.com.waki.entidades.Usuario;
+import ec.com.waki.rest.util.JWTUtil;
 import ec.com.waki.servicios.CommonService;
 import ec.com.waki.servicios.UsuarioService;
 import ec.com.waki.util.Constantes;
@@ -54,19 +56,54 @@ public class userRS {
         Gson gson = builder.create(); 
         MensajeDTO mensaje= new MensajeDTO();
         mensaje.setDate(""+DateUtil.tomarFechaActual());
-        mensaje.setMessage(Tipo_bundle.MENSAJE_NUEVO_CLIENTE);
+        mensaje.setMessage(Tipo_bundle.MENSAJE_ERROR_REGISTRO +" (505*)");
         mensaje.setStatus(false);
         mensaje.setToken("");
 //         com.ec.gbc.entidades.Usuario usuarioNuevo = gson.fromJson(params, com.ec.gbc.entidades.Usuario.class);
         UsuarioDTO usuarioDTO = gson.fromJson(params, UsuarioDTO.class);
+        if(!this.verificaCorreo(usuarioDTO)){
+             mensaje.setMessage(Tipo_bundle.MENSAJE_ERROR_CORREO);
+             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(gson.toJson(mensaje)).build();
+        }
+        try {
+            Usuario registroUsuario = new Usuario();
+            registroUsuario.setEstado(Constantes.ESTADO_ACTIVO);
+            registroUsuario.setNombres(usuarioDTO.getName());
+            registroUsuario.setMail(usuarioDTO.getEmail());
+            registroUsuario.setContrasenia(usuarioDTO.getPassword());
+            registroUsuario.setRole(new Role(Constantes.ROL_CLIENTE));
+            if(registroUsuario.getNombres().equals("") 
+                    || registroUsuario.getMail().equals("")
+                    || registroUsuario.getContrasenia().equals("")
+               ){
+                 mensaje.setMessage(Tipo_bundle.MENSAJE_ERROR_REGISTRO);
+                 return Response.status(Response.Status.NOT_ACCEPTABLE).entity(gson.toJson(mensaje)).build();
+            } 
+            mensaje.setStatus(true);
+            mensaje.setToken(generaToken(registroUsuario));        
+            mensaje.setMessage(Tipo_bundle.MENSAJE_NUEVO_USUARIO);
+            
+            commonService.crearRegistro(registroUsuario);
+
+        } catch (Exception e) {
+            
+             mensaje.setMessage(Tipo_bundle.MENSAJE_ERROR_REGISTRO+"   ( 505 )  ");
+             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(gson.toJson(mensaje)).build();
+        }
         
-         
+        
         return Response.status(Response.Status.CREATED).entity(gson.toJson(mensaje)).build();
-    }1
-    
-    public boolean verificaMaio(UsuarioDTO usuarioDTO ){
-    
-      return usuarioService.buscarUsuario(email, contrasenia)
+    }
+    /**
+     * False :: correo ya existe
+     * <p>
+     * True :: correo NO existe
+     * 
+     * @param usuarioDTO
+     * @return 
+     */
+    public boolean verificaCorreo(UsuarioDTO usuarioDTO ){
+      return usuarioService.buscarCorreo(usuarioDTO.getEmail());
     }
 //    
 //      @POST
@@ -107,4 +144,11 @@ public class userRS {
 //       
 //        return Response.status(Response.Status.UNAUTHORIZED).entity(gson.toJson(mensaje)).build();
 //    } 
+    
+    
+    private String generaToken(Usuario usuario ) throws UnsupportedEncodingException{
+         JWTUtil jwt = new JWTUtil();
+         String JWT = jwt.createToken(usuario);
+         return JWT;
+    }
 }

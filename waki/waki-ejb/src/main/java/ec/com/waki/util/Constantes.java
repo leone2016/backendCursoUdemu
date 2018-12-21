@@ -23,5 +23,5 @@ public class Constantes {
      public static final int  ESTADO_ACTIVO = 1;
      public static final String KEY = "PxVnwQYS!l_DAQG2FrSjS3XI31mpmYi2DlNUIl4TgP8H_rAVb3sY";
      public static final String CORREO_WAKiAPP = "lmedinae@est.ups.edu.ec";
-     
+     public static final Integer ROL_CLIENTE = 3 ;
 }

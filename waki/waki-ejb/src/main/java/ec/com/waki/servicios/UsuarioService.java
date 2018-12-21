@@ -19,6 +19,6 @@ public interface UsuarioService {
   
      public Usuario buscarUsuario(String email, String contrasenia) ;
      
-     public Usuario buscarUsuario(String email, String contrasenia) ;
+     public Boolean buscarCorreo(String email) ;
      
 }

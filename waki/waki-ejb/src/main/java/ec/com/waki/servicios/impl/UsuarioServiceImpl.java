@@ -49,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     
     
     public Boolean buscarCorreo(String email) {
-          Boolean retorno = true
+          Boolean retorno = true;
         try {
             String consulta = "SELECT f FROM Usuario f WHERE f.mail LIKE :correo AND f.estado =" + Constantes.ESTADO_ACTIVO;
             Query query = em.createQuery(consulta);
@@ -59,7 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             }
            
         } catch (Exception e) {
-            UtilEjb.imprimirMensajeError("Error en el servicio UsuarioServiceImpl - buscarUsuario(String email, String contrasenia)  ", e, LOG);
+            UtilEjb.imprimirMensajeError("Error en el servicio UsuarioServiceImpl - buscarCorreo(String email)  ", e, LOG);
         }
         return retorno;
     }
