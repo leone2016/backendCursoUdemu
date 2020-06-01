@@ -1,0 +1,91 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+ 
+    <h:body>
+         <h:form prependId="false" id="formContenido" >
+                <div class="search-home">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-g-nopad">
+                            <div class="ui-g-12 ui-md-8">
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-12 ui-md-6">
+                                        #{bundle.nombre}:
+                                        <p:inputText value="#{newJSFManagedBean}" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6">
+                                        #{bundle.tituloSeleccioneOpcion}:
+                                        <h:selectOneMenu value="#{catalogoBean.catalogoBusqueda.tipo}" class="texto-mayusculas" id="tipocatalogo">                            
+                                            <f:selectItem itemLabel="#{bundle.seleccione}" itemValue="-1" />
+                                            <f:selectItems value="#{catalogoBean.listadoTipos}" var="element" itemLabel="#{element}" itemValue="#{element}" />
+                                        </h:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <div class="ui-g-12 ui-g-nopad">
+                                    <div class="ui-g-12 ui-md-6">
+                                        <p:commandLink  id="btnBuscarCatalogo" styleClass="send" value="Buscar"   
+                                                        update=":formContenido:panelCatalogo"
+                                                        actionListener="#{catalogoBean.buscarCatalogo}"  />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6">
+                                        <p:commandLink styleClass="send" value="Nuevo" oncomplete="PF('creacionCatalogo').show();" 
+                                                       update=":formCreacion:panelCreacion"
+                                                       actionListener="#{catalogoBean.inicializarNuevo}"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+        </h:form>
+           <p:dialog hideEffect="fold"  widgetVar="creacionCatalogo" modal="true" header ="Catalogo" focus="btnGuardarCatalogo">
+                <h:form prependId="false" id="formCreacion"> 
+                    <h:panelGrid columns="2" id="panelCreacion">
+                        <h:outputText value="Etiqueta:" />
+                        <p:inputText id="nombre" value="#{catalogoBean.registro.etiqueta}" required="true" requiredMessage="campo requerido" />
+                        <h:outputText />
+                        <p:message for="nombre" display="text" id="messageNombre">
+                        </p:message> 
+                        <h:outputText value="valor: " />
+                        <p:inputText id="valor" value="#{catalogoBean.registro.valor}" required="true" requiredMessage="campo requerido"/>
+                        <h:outputText />
+                        <p:message for="valor" display="text" id="messageValor">
+                        </p:message> 
+                        <h:outputText value="tipo:" />
+                        <p:inputText id="tipo" value="#{catalogoBean.registro.tipo}" required="true" requiredMessage="campo requerido" />
+                        <h:outputText />
+                        <p:message for="tipo" display="text" id="messageTipo">
+                        </p:message> 
+                        <h:outputText value="descripcion: " />
+                        <p:inputTextarea value="#{catalogoBean.registro.descripcion}" />
+                     
+                    </h:panelGrid>
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-g-nopad">
+                             <div class="ui-g-2 ui-md-2">
+                            </div>
+                            <div class="ui-g-5 ui-md-5">
+                                <p:commandLink styleClass="cancel" value="cancelar" oncomplete="PF('creacionCatalogo').hide();" immediate="true"/>
+                            </div>
+                            <div class="ui-g-5 ui-md-5">
+                                <p:commandLink id="btnGuardarCatalogo" styleClass="send" value="aceptar" 
+                                               oncomplete="handleDialogRequest(xhr, status, args,'creacionCatalogo')" 
+                                         actionListener="#{catalogoBean.guardarRegistro()}"/>  
+                            </div>
+                        </div>
+                    </div>
+                         <p:defaultCommand target="btnGuardarCatalogo" />
+                </h:form>    
+            </p:dialog> 
+      
+    </h:body>
+</html>

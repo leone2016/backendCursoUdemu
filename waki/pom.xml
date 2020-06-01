@@ -10,5 +10,6 @@
     <module>waki-ear</module>
     <module>waki-web</module>
     <module>waki-ejb</module>
+
   </modules>
 </project>

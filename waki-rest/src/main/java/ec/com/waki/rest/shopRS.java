@@ -38,6 +38,23 @@ import javax.ws.rs.container.ContainerRequestContext;
 import org.apache.http.HttpHeaders;
 import org.apache.http.ParseException;
 
+
+/**
+ * PAYPAL LIBRARIES
+ */
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+//import com.paypal.api.payments.Amount;
+//import com.paypal.api.payments.Details;
+//import com.paypal.api.payments.Links;
+//import com.paypal.api.payments.Payer;
+//import com.paypal.api.payments.Payment;
+//import com.paypal.api.payments.PaymentExecution;
+//import com.paypal.api.payments.RedirectUrls;
+//import com.paypal.api.payments.Transaction;
+
 /**
  *
  * @author leoz3

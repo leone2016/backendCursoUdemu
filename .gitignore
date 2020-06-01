@@ -26,3 +26,5 @@ waki/waki-web/target/*
 /tets/target/
 /WebApplication1/nbproject/private/
 /WebApplication1/build/
+/waki-web/nbproject/private/
+/waki-web/target/
